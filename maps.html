@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script>
+      /**
+      * Reference to Firebase database.
+      * @const
+      */
+      var firebase = new Firebase('https://fire-map-tutorial.firebaseio.com/');
+
+      /**
+      * Data object to be written to Firebase.
+      */
+      var data = {
+        sender: null,
+        timestamp: null,
+        lat: null,
+        lng: null
+      };
+
+      function makeInfoBox(controlDiv, map) {
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.boxShadow = 'rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px';
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '2px';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.marginTop = '10px';
+        controlUI.style.textAlign = 'center';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '100%';
+        controlText.style.padding = '6px';
+        controlText.textContent = 'The map shows all clicks made in the last 10 minutes.';
+        controlUI.appendChild(controlText);
+      }
+
+      /**
+      * Starting point for running the program. Authenticates the user.
+      * @param {function()} onAuthSuccess - Called when authentication succeeds.
+      */
+      function initAuthentication(onAuthSuccess) {
+        firebase.authAnonymously(function(error, authData) {
+          if (error) {
+            console.log('Login Failed!', error);
+          } else {
+            data.sender = authData.uid;
+            onAuthSuccess();
+          }
+        }, {remember: 'sessionOnly'});  // Users will get a new id for every session.
+      }
+
+      /**
+       * Creates a map object with a click listener and a heatmap.
+       */
+
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 46.594735, lng: 11.814039},
+          zoom: 12,
+          styles: [{
+            featureType: 'poi',
+            stylers: [{ visibility: 'off' }]  // Turn off POI.
+          },
+          {
+            featureType: 'transit.station',
+            stylers: [{ visibility: 'off' }]  // Turn off bus, train stations etc.
+          }],
+          disableDoubleClickZoom: true,
+          streetViewControl: false,
+        });
+
+        function moveMarker(){
+          for (i = 0; i < 0.001000; i+=0.0001) { 
+              var lat = 46.594735 + i; 
+              var latlng = new google.maps.LatLng(lat, 11.814039);
+              var img = new google.maps.MarkerImage('/Users/jonnysmyth/Desktop/gmplot/gmplot/markers/6495ED.png');
+              var marker2 = new google.maps.Marker({
+              title: "no implementation",
+              icon: img,
+              position: latlng
+              });
+              // marker1.setMap(map);
+              // setTimeout(function(){
+              // //do what you need here
+              // marker1.setMap(null);
+              // }, 2000);
+              }
+              // if (marker1 && marker1.setMap) {
+              //     marker.setMap(null);
+              // }
+              marker2.setMap(map);
+              marker0.setMap(null);
+            }
+
+            //moveMarker();
+
+              var lat = 46.594735  
+              var latlng = new google.maps.LatLng(lat, 11.814039);
+              var img = new google.maps.MarkerImage('/Users/jonnysmyth/Desktop/gmplot/gmplot/markers/6495ED.png');
+              var marker0 = new google.maps.Marker({
+              title: "no implementation",
+              icon: img,
+              position: latlng
+              });
+              marker0.setMap(map);
+
+          
+             var PolylineCoordinates = [
+        new google.maps.LatLng(46.673587, 11.683154),
+        new google.maps.LatLng(46.553049, 11.684094),
+        new google.maps.LatLng(46.564599, 11.900124),
+        new google.maps.LatLng(46.686412, 11.872695),
+        new google.maps.LatLng(46.673587, 11.683154),
+        ];
+
+        var Path = new google.maps.Polyline({
+        clickable: false,
+        geodesic: true,
+        path: PolylineCoordinates,
+        strokeColor: "#6495ED",
+        strokeOpacity: 1.000000,
+        strokeWeight: 1
+        });
+
+        Path.setMap(map);
+/*
+         function CoordGen(latx, lony){
+          for (i = 0; i < 0.001000; i+=0.0001) { 
+            latx = lat + i;
+            lony = lony + i;
+            return[latx, lony];
+         } ;*/
+        var Cloud = [
+        new google.maps.LatLng(46.61572, 11.74461),
+        new google.maps.LatLng(46.61505, 11.74826),
+        new google.maps.LatLng(46.614929, 11.751088),
+        new google.maps.LatLng(46.61298, 11.75212),
+        new google.maps.LatLng(46.61160, 11.74903),
+        new google.maps.LatLng(46.61001, 11.74723),
+        new google.maps.LatLng(46.61001, 11.74723),
+        new google.maps.LatLng(46.60971, 11.74212),
+        new google.maps.LatLng(46.61301, 11.74191),
+        new google.maps.LatLng(46.61572, 11.74461),
+        ];
+
+        var CloudPath = new google.maps.Polygon({
+        clickable: false,
+        geodesic: true,
+        path: Cloud,
+        strokeColor: "#6495ED",
+        strokeOpacity: 1.000000,
+        fillOpacity: .1,
+        strokeWeight: 1
+        });
+
+
+
+        CloudPath.setMap(map);
+        var i = 0.003;
+
+
+
+        var Cloud2 = [
+        new google.maps.LatLng(46.61872+i, 11.74761+i),
+        new google.maps.LatLng(46.61805+i, 11.75126+i),
+        new google.maps.LatLng(46.618929+i, 11.754088+i),
+        new google.maps.LatLng(46.62198+i, 11.75512+i),
+        new google.maps.LatLng(46.61460+i, 11.75203+i),
+        new google.maps.LatLng(46.61301+i, 11.75023+i),
+        new google.maps.LatLng(46.61301+i, 11.75023+i),
+        new google.maps.LatLng(46.61271+i, 11.74512+i),
+        new google.maps.LatLng(46.61601+i, 11.74491+i),
+        new google.maps.LatLng(46.61872+i, 11.74761+i),
+        ];
+
+        var CloudPath2 = new google.maps.Polygon({
+        clickable: false,
+        geodesic: true,
+        path: Cloud2,
+        strokeColor: "#6495ED",
+        strokeOpacity: 1.000000,
+        fillColor: "#6495ED",
+        fillOpacity: 0.35,
+        strokeWeight: 1
+        }); 
+
+        CloudPath2.setMap(map);
+ 
+    //start of node 1 
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">LoRa Node 1</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>LoRa Node 1</b>,'+
+            'Temperature is : 22.</p>'+
+            'Humidity is : 40%.</p>'+
+            'WindSpeed is : 32Km/ph.</p>'+
+            'Direction is : SE.</p>'+
+            '</div>'+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+    var latlng = new google.maps.LatLng(46.594735, 11.814039);
+    var img = new google.maps.MarkerImage('/Users/jonnysmyth/Desktop/gmplot/gmplot/markers/6495ED.png');
+    var markerA = new google.maps.Marker({
+    title: "LoRa Node 1",
+    icon: img,
+    position: latlng
+    });
+    markerA.setMap(map, markerA);
+            markerA.addListener('click', function() {
+          infowindow.open(map, markerA);
+        });
+
+
+       //end of node 1     
+
+       //start of node 2
+
+               var contentString1 = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">LoRa Node 2</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>LoRa Node 2</b>,'+
+            'Temperature is : 23</p>'+
+            'Humidity is : 38%.</p>'+
+            'WindSpeed is : 29Km/ph.</p>'+
+            'Direction is : SE.</p>'+
+            '</div>'+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString1
+        });
+
+    var latlng = new google.maps.LatLng(46.617048, 11.757064);
+    var img = new google.maps.MarkerImage('/Users/jonnysmyth/Desktop/gmplot/gmplot/markers/6495ED.png');
+    var markerB = new google.maps.Marker({
+    title: "LoRa Node 2",
+    icon: img,
+    position: latlng
+    });
+        markerB.setMap(map, markerB);
+        // map.panTo( new google.maps.LatLng(46.617048+0.02, 11.757064+0.02 ) );
+            markerB.addListener('click', function() {
+          infowindow.open(map, markerB);
+        });
+            var change = 0;
+            //end of node 2
+          setTimeout(func, 5000);
+          function func() {
+            //alert('hey');
+            
+             CloudPath.setMap(null);
+             CloudPath2.setMap(null);
+            }
+
+            //if (change==1) {
+              //alert('hey');
+               setTimeout(func1, 5000);
+          function func1() {
+              i=-0.003;
+              j=-0.003;
+                         var Cloud3 = [
+        new google.maps.LatLng(46.61572+i, 11.74461-j),
+        new google.maps.LatLng(46.61505+i, 11.74826-j),
+        new google.maps.LatLng(46.614929+i, 11.751088-j),
+        new google.maps.LatLng(46.61298+i, 11.75212-j),
+        new google.maps.LatLng(46.61160+i, 11.74903-j),
+        new google.maps.LatLng(46.61001+i, 11.74723-j),
+        new google.maps.LatLng(46.61001+i, 11.74723-j),
+        new google.maps.LatLng(46.60971+i, 11.74212-j),
+        new google.maps.LatLng(46.61301+i, 11.74191-j),
+        new google.maps.LatLng(46.61572+i, 11.74461-j),
+        ];
+
+        var CloudPath3 = new google.maps.Polygon({
+        clickable: false,
+        geodesic: true,
+        path: Cloud3,
+        strokeColor: "#6495ED",
+        strokeOpacity: 1.000000,
+        fillOpacity: 0.35,
+        strokeWeight: 1
+        });
+        CloudPath3.setMap(map);
+      }
+           // };
+          // setTimeout(func, 10000);
+          // function func() {
+          //   //alert('hey');
+          //    CloudPath.setMap(map);
+          //   }     
+          //  // func();
+        // Create the DIV to hold the control and call the makeInfoBox() constructor
+        // passing in this DIV.
+        var infoBoxDiv = document.createElement('div');
+        makeInfoBox(infoBoxDiv, map);
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(infoBoxDiv);
+
+        // Listen for clicks and add the location of the click to firebase.
+        map.addListener('click', function(e) {
+          data.lat = e.latLng.lat();
+          data.lng = e.latLng.lng();
+          addToFirebase(data);
+        });
+
+        // Create a heatmap.
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: [],
+          map: map,
+          radius: 16
+        });
+
+        initAuthentication(initFirebase.bind(undefined, heatmap));
+      }
+
+      /**
+       * Set up a Firebase with deletion on clicks older than expirySeconds
+       * @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
+       * which points are added from Firebase.
+       */
+      function initFirebase(heatmap) {
+
+        // 10 minutes before current time.
+        var startTime = new Date().getTime() - (60 * 10 * 1000);
+
+        // Reference to the clicks in Firebase.
+        var clicks = firebase.child('clicks');
+
+        // Listener for when a click is added.
+        clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
+          function(snapshot) {
+
+            // Get that click from firebase.
+            var newPosition = snapshot.val();
+            var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
+            var elapsed = new Date().getTime() - newPosition.timestamp;
+
+            // Add the point to  the heatmap.
+            heatmap.getData().push(point);
+
+            // Requests entries older than expiry time (10 minutes).
+            var expirySeconds = Math.max(60 * 10 * 1000 - elapsed, 0);
+            // Set client timeout to remove the point after a certain time.
+            window.setTimeout(function() {
+              // Delete the old point from the database.
+              snapshot.ref().remove();
+            }, expirySeconds);
+          }
+        );
+
+        // Remove old data from the heatmap when a point is removed from firebase.
+        clicks.on('child_removed', function(snapshot, prevChildKey) {
+          var heatmapData = heatmap.getData();
+          var i = 0;
+          while (snapshot.val().lat != heatmapData.getAt(i).lat()
+            || snapshot.val().lng != heatmapData.getAt(i).lng()) {
+            i++;
+          }
+          heatmapData.removeAt(i);
+        });
+      }
+
+      /**
+       * Updates the last_message/ path with the current timestamp.
+       * @param {function(Date)} addClick After the last message timestamp has been updated,
+       *     this function is called with the current timestamp to add the
+       *     click to the firebase.
+       */
+      function getTimestamp(addClick) {
+        // Reference to location for saving the last click time.
+        var ref = firebase.child('last_message/' + data.sender);
+
+        ref.onDisconnect().remove();  // Delete reference from firebase on disconnect.
+
+        // Set value to timestamp.
+        ref.set(Firebase.ServerValue.TIMESTAMP, function(err) {
+          if (err) {  // Write to last message was unsuccessful.
+            console.log(err);
+          } else {  // Write to last message was successful.
+            ref.once('value', function(snap) {
+              addClick(snap.val());  // Add click with same timestamp.
+            }, function(err) {
+              console.warn(err);
+            });
+          }
+        });
+      }
+
+      /**
+       * Adds a click to firebase.
+       * @param {Object} data The data to be added to firebase.
+       *     It contains the lat, lng, sender and timestamp.
+       */
+      function addToFirebase(data) {
+        getTimestamp(function(timestamp) {
+          // Add the new timestamp to the record data.
+          data.timestamp = timestamp;
+          var ref = firebase.child('clicks').push(data, function(err) {
+            if (err) {  // Data was not written to firebase.
+              console.warn(err);
+            }
+          });
+        });
+      }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cg2REAcpPHq_Es53CfaQnfUYlRRCqqo&libraries=visualization&callback=initMap">
+    </script>
+  </body>
+</html>
